@@ -15,7 +15,8 @@ import {
   Collapse,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useToast } from "@chakra-ui/react";
 const Links = ["Home"];
 
 const NavLink = ({ children }) => (
@@ -36,11 +37,18 @@ const NavLink = ({ children }) => (
 export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
+  const toast = useToast();
 
   const handleSignOut = () => {
-    localStorage.removeItem("username");
-    localStorage.removeItem("password");
-    navigate("/");
+    localStorage.removeItem("token");
+    toast({
+      title: "Signed out",
+      description: "You have successfully logged out.",
+      status: "success",
+      duration: 1000,
+      isClosable: true,
+    });
+    navigate("/login");
   };
 
   return (

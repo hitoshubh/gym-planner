@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Text, Link, Stack } from "@chakra-ui/react";
+import { Box, Text, Stack } from "@chakra-ui/react";
 
 const Footer = () => {
   return (

@@ -8,31 +8,50 @@ import {
   Stack,
   useToast,
 } from "@chakra-ui/react";
-import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
 
-import UserContext from "../context/userContext";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const toast = useToast();
   const navigate = useNavigate();
-  const { settingUserData } = useContext(UserContext);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (username === "admin" && password === "123") {
-      settingUserData({ username, password });
-      toast({
-        title: "Login successful.",
-        description: "Welcome back!",
-        status: "success",
-        duration: 2000,
-        isClosable: true,
-      });
-      navigate("/");
+    if (username && password) {
+      try {
+        const response = await axios.post(
+          `${process.env.REACT_APP_BASE_URL}/api/login`,
+          {
+            username,
+            password,
+          }
+        );
+
+        localStorage.setItem("token", response.data.token);
+
+        toast({
+          title: "Login successful.",
+          description: "Welcome back!",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+
+        navigate("/");
+      } catch (err) {
+        toast({
+          title: "Login failed.",
+          description: "Invalid Pass",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+          position: "top",
+        });
+      }
 
       setUsername("");
       setPassword("");
@@ -43,6 +62,7 @@ const Login = () => {
         status: "error",
         duration: 2000,
         isClosable: true,
+        position: "top",
       });
     }
   };
@@ -80,6 +100,13 @@ const Login = () => {
           <Button colorScheme="blue" type="submit">
             Login
           </Button>
+
+          <Link
+            to={"/signup"}
+            style={{ textDecoration: "underline", color: "blue" }}
+          >
+            Sign Up
+          </Link>
         </Stack>
       </form>
     </Box>

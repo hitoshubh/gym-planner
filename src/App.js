@@ -2,6 +2,7 @@ import React from "react";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
+import ProtectedRoute from "./pages/ProtectedRoute";
 import Signup from "./pages/Signup";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -19,11 +20,26 @@ function App() {
 
           <Box flex="1" mt="60px" mb="60px" p={4}>
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/profile" element={<Profile />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
+              <Route
+                path="/"
+                element={
+                  <ProtectedRoute>
+                    <Home />
+                  </ProtectedRoute>
+                }
+              />
+               <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                    <Profile />
+                  </ProtectedRoute>
+                }
+              />
             </Routes>
+            
           </Box>
 
           <Box position="fixed" bottom="0" left="0" right="0" zIndex="1000">

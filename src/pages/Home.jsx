@@ -1,17 +1,19 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Box, Heading, Text, Button } from "@chakra-ui/react";
-import UserContext from "../context/userContext";
+
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const navigate = useNavigate();
-  const { userData } = useContext(UserContext);
 
+  const username = localStorage.getItem("username");
+  const password = localStorage.getItem("password");
+ 
   useEffect(() => {
-    if (userData?.username !== "admin" || userData?.password !== "123") {
+    if (username !== "admin" || password !== "123") {
       navigate("/login");
     }
-  }, [userData, navigate]);
+  }, [username, password, navigate]);
 
   return (
     <Box textAlign="center" py={10} px={6}>

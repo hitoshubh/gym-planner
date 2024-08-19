@@ -15,8 +15,8 @@ import {
   Collapse,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import { Link } from "react-router-dom";
-const Links = ["Home", "About", "Blog"];
+import { Link,useNavigate } from "react-router-dom";
+const Links = ["Home"];
 
 const NavLink = ({ children }) => (
   <Link
@@ -35,6 +35,13 @@ const NavLink = ({ children }) => (
 
 export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
+
+  const handleSignOut = () => {
+    localStorage.removeItem("username");
+    localStorage.removeItem("password");
+    navigate("/");
+  };
 
   return (
     <>
@@ -82,10 +89,8 @@ export default function Navbar() {
                 <MenuItem as={Link} to="/profile">
                   Your Profile
                 </MenuItem>
-                <MenuItem>Settings</MenuItem>
-                <MenuItem>Billing</MenuItem>
                 <MenuDivider />
-                <MenuItem>Sign out</MenuItem>
+                <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
               </MenuList>
             </Menu>
           </Flex>
